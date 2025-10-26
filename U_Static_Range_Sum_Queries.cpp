@@ -19,6 +19,5 @@ int main() {
         cin >> l >> r;
         cout << prefix[r] - prefix[l - 1] << "\n";
     }
-
     return 0;
 }
