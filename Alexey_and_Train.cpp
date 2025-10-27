@@ -10,22 +10,19 @@ int main() {
     while (t--) {
         int n;
         cin >> n;
-        vector<long long> a(n), b(n), tm(n);
-        for (int i = 0; i < n; i++) cin >> a[i] >> b[i];
-        for (int i = 0; i < n; i++) cin >> tm[i];
+        vector<int> a(n+1), b(n+1), tm(n+1);
+        for (int i = 1; i <= n; i++) cin >> a[i] >> b[i];
+        for (int i = 1; i <= n; i++) cin >> tm[i];
 
-        long long prev_depart = 0; // departure time from previous station
+        long long current_time = 0; 
+        for (int i = 1; i <= n; i++) {
+            long long travel_time = (i == 1 ? a[i] : a[i] - b[i-1]) + tm[i];
+            current_time += travel_time;
 
-        for (int i = 0; i < n; i++) {
-            long long travel = a[i] - prev_depart + tm[i]; // travel from prev station
-            long long arrival = prev_depart + travel;     // arrival time at station i
-            long long min_stop = (b[i] - a[i] + 1) / 2;  // ceiling division
-            long long depart = max(arrival + min_stop, b[i]); // departure time
-            prev_depart = depart; // update for next station
+            long long min_stay = (b[i] - a[i] + 1) / 2; 
+            current_time = max(current_time + min_stay, (long long)b[i]);
         }
 
-        cout << prev_depart << "\n"; // arrival at last station
+        cout << current_time << "\n";
     }
-
-    return 0;
 }
